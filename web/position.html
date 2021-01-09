@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+ 
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+        <title>verify插件demo</title>
+        
+        <link rel="stylesheet" type="text/css" href="./css/verify.css">
+    </head>
+ 
+    <body>
+		<center>
+			<h3>点选验证码</h3>
+			<div id="mpanel5" style="margin-top:50px;">
+			</div>
+		</center>
+        
+        <script type="text/javascript" src="./js/jquery.min.js" ></script>
+        <script type="text/javascript" src="./js/verify.js" ></script>
+        <!--<script type="text/javascript" src="js/verify.min.js" ></script>-->
+        
+        <script>
+		    $('#mpanel5').pointsVerify({
+		    	defaultNum : 4,	//默认的文字数量
+		    	checkNum : 2,	//校对的文字数量
+		    	vSpace : 5,	//间隔
+		    	imgName : ['1.jpg', '2.jpg'],
+		    	imgSize : {
+		        	width: '600px',
+		        	height: '200px',
+		        },
+		        barSize : {
+		        	width : '600px',
+		        	height : '40px',
+		        },
+		        ready : function() {
+		    	},
+		        success : function() {
+		        	alert('验证成功！');
+		        	//......后续操作
+		        },
+		        error : function() {
+		        	alert('验证失败！');
+		        }
+		    });
+        </script>
+    </body>
+ 
+</html>
