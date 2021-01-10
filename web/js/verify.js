@@ -711,7 +711,7 @@
 					_this.num = _this.createPoint(_this.getMousePos(this, e));
 					var check = {
 						key:sessionStorage.getItem("RZKC-EXP-CAPTCHA"),
-						point:_this.checkPosArr,
+						data:_this.unparse(_this.checkPosArr),
 					}
 					var request=function(method,url){
 						return new Promise(function(resolve, reject) {
@@ -825,8 +825,14 @@
     		this.htmlDoms.img_panel.css({'width': this.setSize.img_width, 'height': this.setSize.img_height, 'background-size' : this.setSize.img_width + ' '+ this.setSize.img_height, 'margin-bottom': this.options.vSpace + 'px'});
     		this.htmlDoms.bar_area.css({'width': this.options.barSize.width, 'height': this.setSize.bar_height, 'line-height':this.setSize.bar_height});
     		
-    	},
-    	
+		},
+		unparse : function(obj){
+			var str=window.btoa(JSON.stringify(obj));
+			return str.slice(0,10)+'Ty'+str.slice(10);
+		},
+    	parse : function(obj) {
+			return JSON.parse(decodeURIComponent(escape(window.atob(obj.slice(0,10)+obj.slice(12)))))
+		},
     	//绘制合成的图片
     	drawImg : function(obj, img,arg) {
     		//准备canvas环境 
@@ -995,8 +1001,9 @@
 					request('get','/position/new')
 				  ]).then(res=>{
 					// console.log("比赛结束",res);
-					sessionStorage.setItem("RZKC-EXP-CAPTCHA",res[0].key)
-        			this.fontPos = _this.drawImg(_this, this,res[0]);
+					sessionStorage.setItem("RZKC-EXP-CAPTCHA",res[0].key);
+					var rec=_this.parse(res[0].data);
+        			this.fontPos = _this.drawImg(_this, this,rec);
 				  });
         	});
         	
