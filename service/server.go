@@ -7,7 +7,7 @@ import (
 )
 
 type WebServer interface {
-	Run() error
+	Run(args ...string) error
 }
 
 func NewServer(addr string) WebServer {
@@ -25,7 +25,11 @@ func (s *myHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	defer func() { recover() }()
 }
 
-func (s *myHandler) Run() error {
+func (s *myHandler) Run(args ...string) error {
+	var dir string = "./web"
+	if len(args) > 0 {
+		dir = args[0]
+	}
 	s.Position = NewPosition()
 	// go func() {
 	// 	for {
@@ -35,9 +39,9 @@ func (s *myHandler) Run() error {
 	// }()
 	mux := http.NewServeMux()
 	mux.Handle("/", middleHandler(s))
-	mux.Handle("/static/", middleHandler(http.StripPrefix("/static", http.FileServer(http.Dir("./web")))))
-	mux.HandleFunc("/position/new", s.New)
-	mux.HandleFunc("/position/check", s.Post)
+	mux.Handle("/static/", middleHandler(http.StripPrefix("/static", http.FileServer(http.Dir(dir)))))
+	mux.HandleFunc("/captcha-api/position/new", s.New)
+	mux.HandleFunc("/captcha-api/position/check", s.Post)
 
 	log.Printf("Server start up! [%s]\n", s.addr)
 	return http.ListenAndServe(s.addr, mux)
@@ -61,7 +65,7 @@ func middleHandler(h http.Handler) http.Handler {
 		/*
 
 		 */
-		// fmt.Println("到了中间件～,请求路径为:", r.URL.String())
+		fmt.Println("到了中间件～,请求路径为:", r.URL.String())
 		h.ServeHTTP(w, r)
 	})
 }
