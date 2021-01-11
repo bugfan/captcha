@@ -65,7 +65,7 @@ func middleHandler(h http.Handler) http.Handler {
 		/*
 
 		 */
-		fmt.Println("到了中间件～,请求路径为:", r.URL.String())
+		// fmt.Println("到了中间件～,请求路径为:", r.URL.String())
 		h.ServeHTTP(w, r)
 	})
 }
