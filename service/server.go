@@ -31,17 +31,12 @@ func (s *myHandler) Run(args ...string) error {
 		dir = args[0]
 	}
 	s.Position = NewPosition()
-	// go func() {
-	// 	for {
-	// 		time.Sleep(2e9)
-	// 		fmt.Println("Position:", s.Data.ItemCount(), s.Data.Items())
-	// 	}
-	// }()
+
 	mux := http.NewServeMux()
 	mux.Handle("/", middleHandler(s))
 	mux.Handle("/static/", middleHandler(http.StripPrefix("/static", http.FileServer(http.Dir(dir)))))
-	mux.HandleFunc("/captcha-api/position/new", s.New)
-	mux.HandleFunc("/captcha-api/position/check", s.Post)
+	mux.HandleFunc("/position/new", s.New)
+	mux.HandleFunc("/position/check", s.Post)
 
 	log.Printf("Server start up! [%s]\n", s.addr)
 	return http.ListenAndServe(s.addr, mux)
