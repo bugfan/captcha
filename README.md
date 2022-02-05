@@ -35,8 +35,8 @@ or
 ```
 ## 效果
 - 滑动
-![Alt text](./asserts/slide.jpg)
+![Alt text](./assets/slide.jpg)
 - 点选
-![Alt text](./asserts/position.jpg)
+![Alt text](./assets/position.jpg)
 
 ### 需要不同的页面显示效果，去‘web’目录下修改对应的js，html等文件代码即可
